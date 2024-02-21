@@ -1,0 +1,106 @@
+<!DOCTYPR html>
+<html>
+  <head>
+    <title>Introduction for Whoapp public chat </title>
+    <link rel="icon" href="https://i.ibb.co/wgc2Wdp/Whoapp.jpg">
+    <style>
+      body{
+        font-family: Georgia;
+        height: 100vh;
+        font-size: 18px;
+      }
+      #header{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        color: #0076ff;
+        height: 100px;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        background-color: #f6f6f6;
+      }
+      #main{
+        margin-top: 101px;
+        background-color: #fff;
+      }
+      button {
+        padding: 10px;
+        background-color: #0076ff;
+        color: #fff;
+        font-weight: 860;
+        border: none;
+      }
+      button:active{
+        background-color: royalblue;
+      }
+      img{
+        width: 100%;
+        margin-top: 20px;
+      }
+      #footer{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+        margin-top: 101px;
+        height: 400px;
+        background-color: #222;
+        color: #fff;
+      }
+      a{
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 20px;
+        color: #fff;
+        border-radius: 90px;
+        padding: 10px;
+        width: 100%;
+        background-color: green;
+      }
+      #lk{
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <h1>Whoapp Chat</h1>
+      <button onclick="showLogin()" id="loginCreate">Login or Create one</button>
+    </header>
+    <main id="main">
+      <br></br>
+      <img src="https://i.ibb.co/wgc2Wdp/Whoapp.jpg" alt="Whoapp" border="0">
+      <p>This you can chat anytime and anywhere <button id="lk" onclick="showLogin()">Get Started</button></p>
+    </main>
+    <footer id="footer">
+      <button id="lk" onclick="showLogin()">Get Started</button><br><br></br>
+      <p style="width: 100%;">Whoapp get more to download Whoapp </p><br><br><br>
+      <p>Copyright 2024</p><br><br>
+      <button id="lk" onclick="goContact()" >Contact Us</button>
+      <a href="https://www.appcreator24.com/app2609448-vag0so">Download Now</a>
+    </footer>
+    <script>
+      function showLogin (){
+        var cr = document.createElement('a');
+        cr.href = 'chat.login.html';
+        cr.click();
+        localStorage.setItem('open', cr);
+      }
+      function goContact (){
+        var cr = document.createElement('a');
+        cr.href = 'contact.html';
+        cr.click();
+      }
+        var j = localStorage.getItem('open');
+        if(j){
+          var cr = document.createElement('a');
+          cr.href = 'chat.login.html';
+          cr.click();
+        }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Chat app
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      overflow: scroll;
+    }
+
+    main {
+      width: 100vw;
+      height: 100%;
+      position: absolute;
+      background: linear-gradient(
+        109.6deg,
+        rgba(0, 0, 0, 0.93) 11.2%,
+        rgb(63, 61, 61) 78.9%
+      );
+      overflow: scroll;
+    }
+
+    main .topper {
+      width: 100%;
+      height: auto;
+      background: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+      padding: 10px;
+      position: sticky;
+      z-index: 1;
+      height: 100px;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+    }
+
+    .icon {
+      background-image: url('https://i.ibb.co/wgc2Wdp/Whoapp.jpg');
+      width: 60px;
+      height: 60px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 50%;
+      left: 15px;
+      position: fixed;
+      top: 15px;
+    }
+
+    .name {
+      color: #fff;
+      font-weight: bolder;
+      left: 80px;
+      top: 35px;
+      z-index: 40;
+      position: fixed;
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+    main #sendMsg{
+      width: 100%;
+      height: auto;
+      background: #595656;
+      position: fixed;
+      z-index: 1;
+      bottom: 0;
+      right: 0;
+      padding: 10px;
+      padding-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main #sendMsg #input {
+      width: 95%;
+      height: auto;
+      background: grey;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px;
+    }
+
+    main #sendMsg #input input {
+      width: 90%;
+      padding: 7px;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    main #sendMsg #input input::placeholder {
+      color: #e6e6e6;
+    }
+
+    main #sendMsg #input button {
+      padding: 5px 10px;
+      margin: 0 5px;
+      font-size: 20px;
+      border-radius: 10px;
+      color: #fff;
+      transition: 0.2s;
+      outline: none;
+      border: none;
+      background: transparent;
+    }
+
+    main #sendMsg #input button:active {
+      transform: scale(0.96);
+      background: #13d2a3;
+      opacity: 0.4;
+    }
+
+    main #sendMsg::after {
+      content: 'Created by Cabdi Waaxid Siciid';
+      position: absolute;
+      width: 100%;
+      bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #b3b3b3;
+    }
+
+    main .msgs_cont {
+      width: 100%;
+      height: calc(100vh - 155px);
+      overflow: scroll;
+      padding: 10px;
+      padding-bottom: 15px;
+    }
+
+    main .msgs_cont{
+      overflow: scroll;
+      width: 100%;
+      padding: 5px;
+    }
+
+    main .msgs_cont .me{
+      padding: 10px;
+      max-width: 70%;
+      margin: 10px 0;
+      background: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+      color: #fff;
+      list-style-type: none;
+      border-radius: 10px;
+      color: #f2f2f2;
+      word-wrap: break-word;
+      overflow: scroll;
+      position: relative;
+    }
+
+    main .msgs_cont .me {
+      float: right;
+      clear: both;
+      overflow: scroll;
+      margin-bottom: 5px;
+      border-bottom-right-radius: 20px;
+    }
+
+    main .msgs_cont .notMe {
+      float: left;
+      color: #fff;
+      clear: both;
+      overflow: scroll;
+      margin-bottom: 5px;
+      background: linear-gradient(to top right, #11ba91, #0a6e55);
+      padding-left: 12px;
+      border-bottom-left-radius: 20px;
+    }
+    #dltMsg{
+      font-size: 18px;
+      color: #0a5e44;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+    }
+    .notMe{
+      padding: 10px;
+      margin-left: 10px;
+    }
+    #mk{
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      font-weight: bold;
+      color: #fff;
+      right: 1%;
+      position: fixed;
+    }
+    #online-count{
+      color: #fff;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #38ff1fc5;
+      position: fixed;
+      border-radius: 50%;
+    }
+    .online-users{
+      width: 50%;
+      position: fixed;
+      height: 70px;
+      left: 25%;
+      justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    #on{
+      position: fixed;
+      font-size: 8px;
+      color: #fff;
+      font-family: Times, Times New Roman, serif;
+      line-height: 15px;
+      top: 73px;
+      letter-spacing: 0px;
+      font-weight: bold;
+    }
+    .msgs_cont{
+      position: fixed;
+      bottom: 90px;
+      padding: 10px 10px 50px 10px;
+      overflow: scroll;
+    }
+    button:active{
+      border: 1px solid #fff;
+    }
+    #menu{
+      height: 60px;
+      border-radius: 50%;
+      color: black;
+      background-color: transparent;
+      border: none;
+      font-size: 15px;
+      position: fixed;
+      right: 12%;
+      color: #fff;
+      font-weight: bold;
+    }
+    .fa-sign-out-alt, .fa-address-book{
+      font-size: 30px;
+      color: royalblue;
+    }
+    .kl{
+      border: none;
+      border-radius: 3px;
+      flex: 1;
+      font-family: "Skanji";
+      text-shadow: 1px 2px 3px #000000;
+      cursor: pointer;
+      box-shadow: none;
+      text-align: center;
+      padding: 10px;
+      background: linear-gradient(#ced869, #536d1b);
+    }
+    a{
+      text-decoration: none;
+      letter-spacing: normal;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .fa-paper-plane{
+      font-size: 35px;
+    }
+    </style>
+  </head>
+<body>
+    <main>
+      <div class="topper">
+        <div id="icons">
+          <div class="icon"></div>
+          <div class="name">Whoapp Chat</div>
+        </div>
+        <div class="online-users">
+          <span id="online-count">0</span>
+          <br>
+          <span id="on">
+            last Online in 5 minutes
+            </span>
+          </div>
+          <button id="menu" onclick="showMenu()"><i class="fa fa-address-book" aria-hidden="true"></i><br>Contact Us</button>
+          <button id="mk" onclick="showLogout()"><i class="fa fa-sign-out-alt"></i><br>Logout</button>
+        </div>
+      </div>
+      <div class="msgs_cont">
+        <div id="messages"></div>
+      </div>
+       <div id="sendMsg">
+        <div id="input">
+          <input type="text" id="msgTxt" placeholder="Enter your message..">
+          <button type="submit" id="msgBtn" onclick="module.sendMsg()"><i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+    </main>
+    <audio id="sendSound">
+      <source src="Received.wav" type="audio/mpeg">
+      </audio>
+<audio id="receiveSound">
+  <source src="send.wav" type="audio/mpeg">
+</audio>
+      </div>
+    <script>
+        module = {};
+        function showLogout () {
+          var kl = document.createElement('a');
+          kl.href = 'chat.login.html';
+          kl.click();
+          localStorage.clear('login');
+          localStorage.setItem('sender');
+          localStorage.clear('codeE');
+        }
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getDatabase, ref, set, remove, onChildAdded, onChildRemoved } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7SBddUcN2dDKwYwPR_o4HsbHgU648fM8",
+            authDomain: "new-app-ad5ea.firebaseapp.com",
+            projectId: "new-app-ad5ea",
+            storageBucket: "new-app-ad5ea.appspot.com",
+            messagingSenderId: "13560733487",
+            appId: "1:13560733487:web:05dcd1db0bcf027b410bda",
+            measurementId: "G-F86L86DK9W"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        var msgTxt = document.getElementById('msgTxt');
+        var sender;
+        sender = localStorage.getItem('sender');
+        module.sendMsg = function sendMsg(){
+            var msg = msgTxt.value;
+            var timestamp = new Date().getTime();
+            set(ref(db,"messages/"+timestamp),{
+                msg : msg,
+                sender : sender
+            })
+            msgTxt.value="";
+            document.getElementById("sendSound").play();
+        }
+        onChildAdded(ref(db,"messages"), (data)=>{
+            if(data.val().sender == sender){
+                messages.innerHTML += `<div style="justify-content:end ;"class="outer" id="${data.key}"><div id="inner" class="me">${data.val().msg}: You <button id="dltMsg" onclick="module.dltMsg('${data.key}')"><i class="fa fa-trash"></i></button></div></div>`;
+                messages.scrollTop += messages.scrollHeight;
+            } else {
+                messages.scrollTop += messages.scrollHeight;
+                messages.innerHTML += `<div class="outer" id="${data.key}"><div id="inner" class="notMe">${data.val().sender} : ${data.val().msg}</div></div>`;
+                document.getElementById("receiveSound").play();
+            }
+        })
+        module.dltMsg = function dltMsg(key){
+            remove(ref(db,"messages/"+key));
+        }
+        onChildRemoved(ref(db,"messages"),(data)=>{
+            var msgBox = document.getElementById(data.key);
+            messages.removeChild(msgBox);
+        })
+        var userActivityRef = ref(db, "userActivity");
+        var fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
+        function updateUserActivity() {
+          set(ref(db, "userActivity/" + sender), Date.now());
+        }
+        function updateOnlineUsersCount() {
+          var onlineUsersCount = 0;
+          onChildAdded(userActivityRef, (snapshot) => {
+            if (snapshot.val() > fiveMinutesAgo) {
+              onlineUsersCount++;
+            }
+            document.getElementById("online-count").textContent = onlineUsersCount;
+          });
+        }
+        updateUserActivity();
+        updateOnlineUsersCount();
+    </script>
+    <script>
+      const icons = document.querySelector('#icons');
+      const icon = icons.querySelector('.icon');
+      const name = icons.querySelector('.name');
+      
+      const images = [
+        '<br><img src="https://i.ibb.co/tHHdnBg/Whoapp.jpg" class="icon" height="55%">',
+        '<br><img src="https://i.ibb.co/gJfjcWW/edited-image.png" class="icon" height="55%">',
+        '<br><img src="https://i.ibb.co/7YnNbp7/node-4230.jpg" class="icon" height="55%">',
+        '<br><img src="https://i.ibb.co/Y229cQ5/console-ninja-gaming-logo-design-100735-52.jpg" class="icon" height="55%">'
+      ];
+      let currentImageIndex = 0;
+
+      const names = [
+         '<a class="kl" href="https://www.appcreator24.com/app2609448-vag0so">Download Whoapp</a>',
+        '<a class="kl" href="https://www.appcreator24.com/app2905296-gwvr2i">Download ChatMe AIS Tools</a>',
+        '<a class="kl" href="https://www.appcreator24.com/app2937647-jdgqny">Download HTML Editor</a>',
+        '<a class="kl" href="https://www.appcreator24.com/app2816601-81v7mo">Download Free Games</a>'
+      ];
+      let currentNameIndex = 0;
+
+      function changeImage() {
+        icon.style.backgroundImage = '';
+        icon.innerHTML = images[currentImageIndex];
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+      }
+
+      function changeName() {
+        name.innerHTML = names[currentNameIndex];
+        currentNameIndex = (currentNameIndex + 1) % names.length;
+      }
+
+      setInterval(changeImage, 5000); // Change image every 5 seconds
+      setInterval(changeName, 5000); // Change name every 5 seconds
+    </script>
+    <script>
+      function showMenu () {
+        var ty = document.createElement('a');
+        ty.href = 'contact.html';
+        ty.click()
+      }
+    </script>
+</body>
+</html>
