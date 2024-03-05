@@ -386,14 +386,29 @@
           set(ref(db, "userActivity/" + sender), Date.now());
         }
         function updateOnlineUsersCount() {
-          var onlineUsersCount = 0;
-          onChildAdded(userActivityRef, (snapshot) => {
-            if (snapshot.val() > fiveMinutesAgo) {
-              onlineUsersCount++;
+    var onlineUsersCount = 0;
+    onChildAdded(userActivityRef, (snapshot) => {
+        if (snapshot.val() > fiveMinutesAgo) {
+            onlineUsersCount++;
+            if (snapshot.key !== sender) {
+                alert("New user joined: " + snapshot.key);
             }
-            document.getElementById("online-count").textContent = onlineUsersCount;
-          });
         }
+        document.getElementById("online-count").textContent = onlineUsersCount;
+    });
+        }
+        function showOnlineUsers() {
+          var onlineUsers = [];
+          onChildAdded(userActivityRef, (snapshot) => {
+            var userId = snapshot.key;
+            var lastOnline = snapshot.val();
+            if (lastOnline > fiveMinutesAgo) {
+              onlineUsers.push(userId);
+            }
+          });
+          alert("Online Users:\n" + onlineUsers.join("\n"));
+        }
+        document.getElementById("online-count").addEventListener("click", showOnlineUsers);
         updateUserActivity();
         updateOnlineUsersCount();
     </script>
