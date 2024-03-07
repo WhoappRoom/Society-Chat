@@ -172,7 +172,10 @@
       clear: both;
       overflow: scroll;
       margin-bottom: 5px;
-      border-bottom-right-radius: 20px;
+      border-radius: 10px;
+    }
+    .me{
+      margin-top: 15px;
     }
 
     main .msgs_cont .notMe {
@@ -183,7 +186,7 @@
       margin-bottom: 5px;
       background: linear-gradient(to top right, #11ba91, #0a6e55);
       padding-left: 12px;
-      border-bottom-left-radius: 20px;
+      border-radius: 10px;
     }
     #dltMsg{
       font-size: 18px;
@@ -194,6 +197,7 @@
     }
     .notMe{
       padding: 10px;
+      margin-top: 15px;
       margin-left: 10px;
     }
     #mk{
@@ -288,6 +292,18 @@
     .fa-paper-plane{
       font-size: 35px;
     }
+    #names{
+      font-size: 23px;
+      margin-bottom: 4px;
+      font-weight: 400;
+    }
+    #time{
+      font-size: 10px;
+      text-align: right;
+      position: relative;
+      right: -5%;
+      top: -5%;
+    }
     </style>
   </head>
 <body>
@@ -354,25 +370,27 @@
         var sender;
         sender = localStorage.getItem('sender');
         module.sendMsg = function sendMsg(){
-            var msg = msgTxt.value;
-            var timestamp = new Date().getTime();
-            set(ref(db,"messages/"+timestamp),{
-                msg : msg,
-                sender : sender
-            })
+          var msg = msgTxt.value;
+          var timestamp = new Date().getTime();
+          set(ref(db,"messages/"+timestamp),{
+            msg: msg,
+            sender: sender,
+            timestamp: timestamp // Include the timestamp here
+            });
             msgTxt.value="";
             document.getElementById("sendSound").play();
         }
         onChildAdded(ref(db,"messages"), (data)=>{
-            if(data.val().sender == sender){
-                messages.innerHTML += `<div style="justify-content:end ;"class="outer" id="${data.key}"><div id="inner" class="me">${data.val().msg}: You <button id="dltMsg" onclick="module.dltMsg('${data.key}')"><i class="fa fa-trash"></i></button></div></div>`;
-                messages.scrollTop += messages.scrollHeight;
-            } else {
-                messages.scrollTop += messages.scrollHeight;
-                messages.innerHTML += `<div class="outer" id="${data.key}"><div id="inner" class="notMe">${data.val().sender} : ${data.val().msg}</div></div>`;
-                document.getElementById("receiveSound").play();
-            }
-        })
+    var messageTime = new Date(data.val().timestamp).toLocaleTimeString();
+    if(data.val().sender == sender){
+        messages.innerHTML += `<div style="justify-content:end ;"class="outer" id="${data.key}"><div id="inner" class="me"><span id="names">You</span><span id="time">${messageTime}</span><br><br>${data.val().msg} <button id="dltMsg" onclick="module.dltMsg('${data.key}')"><i class="fa fa-trash"></i></button></div></div>`;
+        messages.scrollTop = messages.scrollHeight;
+    } else {
+        messages.scrollTop = messages.scrollHeight;
+        messages.innerHTML += `<div class="outer" id="${data.key}"><div id="inner" class="notMe"><span id="names">${data.val().sender}</span><span id="time">${messageTime}</span><br><br> ${data.val().msg}</div></div>`;
+        document.getElementById("receiveSound").play();
+    }
+})
         module.dltMsg = function dltMsg(key){
             remove(ref(db,"messages/"+key));
         }
